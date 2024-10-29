@@ -40,7 +40,7 @@ pip install yt-dlp
    Start the script by executing:
 
    ```bash
-   python single_vid.py
+   python highResolution.py
    ```
 
 3. **Input Options**:
