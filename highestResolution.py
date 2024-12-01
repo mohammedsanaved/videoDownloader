@@ -1,9 +1,19 @@
 from yt_dlp import YoutubeDL
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
 
 def get_available_resolutions(video_url):
-    with YoutubeDL() as ydl:
+    ydl_opts = {
+        'no_proxy': True,
+        'logger': logger,
+        'proxy': None,
+        'verbose': True,  
+    }
+    with YoutubeDL(ydl_opts) as ydl:
         info_dict = ydl.extract_info(video_url, download=False)
-
+        
         if 'entries' in info_dict:  # Check if it's a playlist
             first_video = info_dict['entries'][0]
             video_formats = first_video.get('formats', [])
@@ -16,9 +26,12 @@ def get_available_resolutions(video_url):
 
 def download_video_with_ytdlp(video_url, format_id):
     ydl_opts = {
+        'no_proxy': True,  # Disable proxy
         'format': f"{format_id}+bestaudio/best",
         'progress_hooks': [progress_hook],
-        'outtmpl': '%(title)s.%(ext)s'
+        'outtmpl': '%(title)s.%(ext)s',
+        'logger': logger,  # Optional for logging
+        'verbose': True,  # Enable verbose logging for debugging
     }
     with YoutubeDL(ydl_opts) as ydl:
         ydl.download([video_url])
