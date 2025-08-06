@@ -1,16 +1,15 @@
 from yt_dlp import YoutubeDL
 import logging
 
-# Set up logger for debugging (optional)
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
 def get_available_resolutions(video_url):
     ydl_opts = {
-        'no_proxy': True,  # Disable proxy
+        'no_proxy': True,
         'logger': logger,
         'proxy': None,
-        'verbose': True,  # Enable verbose logging for debugging
+        'verbose': True,  
     }
     with YoutubeDL(ydl_opts) as ydl:
         info_dict = ydl.extract_info(video_url, download=False)
